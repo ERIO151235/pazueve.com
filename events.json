@@ -1,0 +1,34 @@
+{
+  "現在": [
+    {
+      "title": "ふでのすけのおえかきパネル！",
+      "start": "2026/10/01 7:00",
+      "end": "10/14 3:59",
+      "link": "events/oekakipaneru.html",
+      "image": "images/202610011014-oekakipaneru-2.png" 
+    }
+  ],
+  "2026": [
+    {
+      "title": "ふでのすけのおえかきパネル！",
+      "start": "2026/10/01 7:00",
+      "end": "10/14 3:59",
+      "link": "events/oekakipaneru.html",
+      "image": "images/202610011014-oekakipaneru-2.png"
+    },                    
+    {
+      "title": "ハーフアニバーサリー記念フェス",
+      "start": "2026/06/15 15:00",
+      "end": "06/30 20:59",
+      "link": "events/456.html",
+      "image": "images/202610011014-oekakipaneru-3.png"
+    },
+    {
+      "title": "新春！ぱずぎり大合戦2027",
+      "start": "2027/01/01 0:00",
+      "end": "01/10 23:59",
+      "link": "events/789.html",
+      "image": "images/202610011014-oekakipaneru-4.png"
+    }
+  ]
+}

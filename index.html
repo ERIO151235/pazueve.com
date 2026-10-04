@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ぱずぎりイベント記録</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', system-ui, -apple-system, sans-serif;
+    letter-spacing: 0.05em;
+    color: #333;
+    background-color: #f9f9f9;
+    background-image: url("images.background.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: auto;
+  }
+  
+  .bg-gray {
+    background-color: #f8f9fa;
+  }
+  .header-border {
+    border-bottom: 1px solid #dee2e6;
+    width: 100%;
+  }
+  
+  /* 年選択ボタン設定 */
+  .year-btn {
+    padding: 6px 14px;
+    margin: 4px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: 1px solid #ced4da;
+    background-color: #fff;
+    border-radius: 25px;
+    color: #495057;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease, color 0.15s ease;
+  }
+  .year-btn:not(.active):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #f6bfbc;
+    border-color: #f6bfbc;
+    color: #333;
+  }
+  .year-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
+  }
+  .year-btn.active, .year-btn.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #f09199;
+    border-color: #f09199;
+    color: #fff;
+    cursor: default;
+  }
+  .button-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* イベントカード設定 */
+  .event-card-wrapper {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .hover-card {
+    background-color: #ffffff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+  }
+  .hover-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.15);
+  }
+  
+  /* フッター */
+  .custom-footer {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+</style>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gray sticky-top border-bottom border-1">
+    <div class="container-fluid px-2 px-sm-3 d-flex flex-column align-items-start">
+      <div class="d-flex align-items-center flex-wrap">
+        <a href="#" class="d-flex align-items-center text-decoration-none" style="cursor: pointer;">
+          <i class="bi bi-flower3 fs-2 text-danger m-0 me-0"></i>
+          <p class="navbar-brand fw-bold m-0 fs-3 py-0">ぱずぎりイベント記録</p></a>
+        <p id="nav-description" class="text-secondary small mb-1 m-3 mt-2 ms-2 ms-md-3 d-block d-md-inline">
+          これまでに開催されたゲーム内イベント一覧
+        </p>
+      </div>
+    </div>
+  </nav>
+  <div class="header-border"></div>
+  
+  <!-- 年選択ボタンはこの場所に追加する -->
+  <div class="button-section">
+    <div class="d-flex justify-content-center flex-wrap px-2">
+      <button class="year-btn active" data-json-key="現在">現在開催中</button>
+      <button class="year-btn" data-json-key="2026">2026年</button>
+    </div>
+  </div>
+  
+  <main class="container flex-grow-1 mb-5 pb-5">
+    <div id="event-list-container" class="event-card-wrapper">
+      <div class="d-grid gap-3" id="card-list">
+      </div>
+    </div>
+    
+    <div id="event-detail-container" class="mx-auto text-start px-3" style="max-width: 800px; display: none;">
+    </div>
+  </main>
+
+  <footer class="py-4 mt-auto custom-footer">
+    <p class="footer-text mb-0" style="color:gray">
+      <small>
+        Background Image by <a href="https://ja.pngtree.com/freepng/hand-drawn-cartoon-cherry-petals-floating-free-buckle-element_4431467.html">ja.pngtree.com</a>
+        <br>
+        衿緒 <a href="https://twitter.com/ERIO151235/">@ERIO151235</a>
+      </small>
+    </p>
+  </footer>
+  
+  <script>
+    // データ読み込み
+    let eventData = null;
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('events.json');
+        eventData = await response.json();
+        renderEventList('現在');
+      } catch (error) {
+        console.error('データ読み込み失敗:', error);
+        document.getElementById('card-list').innerHTML = '<p class="text-danger small">データ読み込み失敗</p>';
+      }
+      // ボタン設定
+      document.querySelectorAll('.year-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+          document.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
+          e.target.classList.add('active');
+          const key = e.target.getAttribute('data-json-key');
+          renderEventList(key);
+        });
+      });
+    });
+
+    function renderEventList(key) {
+      const cardList = document.getElementById('card-list');
+      const listContainer = document.getElementById('event-list-container');
+      const detailContainer = document.getElementById('event-detail-container');
+      detailContainer.style.display = 'none'; // 詳細画面を非表示にする
+      detailContainer.innerHTML = '';         // 詳細画面を空にする
+      listContainer.style.display = 'block';  // カード表示する
+      cardList.innerHTML = '';                // 既存のカードを消去する
+      if (!eventData || !eventData[key] || eventData[key].length === 0) {
+        cardList.innerHTML = '<p class="text-muted small">該当するイベントはありません。</p>';
+        return; // なかったら終了
+      }
+      
+      // カード自動生成・ループ処理
+      eventData[key].forEach(event => {
+        const startText = event.start.replace(/^([^\(]+)/, '<strong>$1</strong>');
+        const endText = event.end.replace(/^([^\(]+)/, '<strong>$1</strong>');
+        
+        const cardHtml = `
+          <div class="card border-0 hover-card text-decoration-none text-dark" onclick="loadEventDetail('${event.link}')">
+            <div class="card-body py-0 ps-0 pe-3 d-flex align-items-center">
+              <img src="${event.image}" alt="${event.title}" class="flex-shrink-0" style="width: 100px; height: 74px; object-fit: cover; border-top-left-radius: 12px; border-bottom-left-radius: 12px; margin-right: 16px;">
+              <div class="flex-grow-1 text-start pe-2" style="min-width: 0;">
+                <h2 class="h6 fw-bold mb-1 text-dark" style="line-height: 1.4; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${event.title}</h2>
+                <p class="text-muted mb-0" style="font-size: 0.8rem; letter-spacing: 0.01em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${startText} ～ ${endText}</p>
+              </div>
+              <i class="fas fa-chevron-right text-muted flex-shrink-0 ms-auto"></i>
+            </div>
+          </div>
+        `;
+        cardList.insertAdjacentHTML('beforeend', cardHtml);
+      });
+    }
+    // 詳細情報への切り替え
+    async function loadEventDetail(url) {
+      const listContainer = document.getElementById('event-list-container');     // 一覧画面の枠を取得
+      const detailContainer = document.getElementById('event-detail-container'); // 詳細画面の枠と取得
+
+      try {
+        const response = await fetch(url);                 // URLのファイルをダウンロード
+        if (!response.ok) throw new Error('データ取得失敗'); // ファイルない場合の表示
+        const htmlText = await response.text();            // ファイルの中身を取り出す
+        
+        listContainer.style.display = 'none';            // 一覧画面を非表示にする
+        detailContainer.innerHTML = htmlText;            // 詳細画面の枠に読み込んだHTMLを挿入
+
+        const activeKey = document.querySelector('.year-btn.active').getAttribute('data-json-key');
+        const targetEvent = eventData[activeKey].find(event => event.link === url);
+        
+        if (targetEvent) {
+          const titleElement = document.getElementById('js-event-title');
+          const dateElement = document.getElementById('js-event-date');
+          
+          if (titleElement) {
+            titleElement.innerText = targetEvent.title;
+          }
+          if (dateElement) {
+            const startText = targetEvent.start.replace(/^([^\(]+)/, '<strong>\$1</strong>');
+            const endText = targetEvent.end.replace(/^([^\(]+)/, '<strong>\$1</strong>');
+            dateElement.innerHTML = `開催期間：${startText} ～ ${endText}`;
+          }
+        }
+        detailContainer.style.display = 'block';         // 詳細画面を表示する
+        } catch (error) {
+        console.error(error);
+        alert('イベント詳細の読み込みに失敗しました。ファイルが存在するか確認してください。');
+      }
+    }
+    function backToEventList(e) {
+      e.preventDefault();
+      const listContainer = document.getElementById('event-list-container');
+      const detailContainer = document.getElementById('event-detail-container');
+      
+      detailContainer.style.display = 'none';    // 詳細画面を非表示にする
+      detailContainer.innerHTML = '';            // 詳細画面の中身を空にする
+      listContainer.style.display = 'block';     // カード一覧を再表示する
+
+      // 一覧に戻ったときに、滑らかにトップへスクロールさせる
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
