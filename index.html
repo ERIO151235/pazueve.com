@@ -120,15 +120,30 @@
   </nav>
   <div class="header-border"></div>
   
-  <!-- 年選択ボタンはこの場所に追加する -->
+  <!-- 年選択ボタン -->
   <div class="button-section">
     <div class="d-flex justify-content-center flex-wrap px-2">
       <button class="year-btn active" data-json-key="現在">現在開催中</button>
       <button class="year-btn" data-json-key="2026">2026年</button>
+      <button class="year-btn" data-json-key="その他">その他</button>
     </div>
   </div>
   
+  <!-- ドロップボックス -->
   <main class="container flex-grow-1 mb-5 pb-5">
+    <div class="mx-auto mb-3 text-end" style="width: 90%; max-width: 800px;">
+      <div class="d-inline-block" style="width: 100%; max-width: 240px;">
+        <select id="type-select" class="form-select rounded-pill form-select-sm text-secondary" style="cursor: pointer; background-color: #fff;">
+          <option value="すべて">すべてのタイプを表示</option>
+          <option value="イベント">イベント</option>
+          <option value="ピックアップ">【召喚】ピックアップ（戦装束）</option>
+          <option value="運営">運営</option>
+          <option value="ショップ">ショップ</option>
+          <option value="不具合">不具合</option>
+        </select>
+      </div>
+    </div>
+
     <div id="event-list-container" class="event-card-wrapper">
       <div class="d-grid gap-3" id="card-list">
       </div>
@@ -147,9 +162,9 @@
       </small>
     </p>
   </footer>
+
   
   <script>
-    // データ読み込み
     let eventData = null;
     document.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -160,7 +175,7 @@
         console.error('データ読み込み失敗:', error);
         document.getElementById('card-list').innerHTML = '<p class="text-danger small">データ読み込み失敗</p>';
       }
-      // ボタン設定
+
       document.querySelectorAll('.year-btn').forEach(button => {
         button.addEventListener('click', (e) => {
           document.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
@@ -169,23 +184,45 @@
           renderEventList(key);
         });
       });
+      
+      const typeSelect = document.getElementById('type-select');
+      if (typeSelect) {
+        typeSelect.addEventListener('change', () => {
+          const activeKey = document.querySelector('.year-btn.active').getAttribute('data-json-key');
+          renderEventList(activeKey);
+        });
+      }
     });
-
+        
     function renderEventList(key) {
       const cardList = document.getElementById('card-list');
       const listContainer = document.getElementById('event-list-container');
       const detailContainer = document.getElementById('event-detail-container');
-      detailContainer.style.display = 'none'; // 詳細画面を非表示にする
-      detailContainer.innerHTML = '';         // 詳細画面を空にする
-      listContainer.style.display = 'block';  // カード表示する
-      cardList.innerHTML = '';                // 既存のカードを消去する
+      
+      detailContainer.style.display = 'none';
+      detailContainer.innerHTML = '';
+      listContainer.style.display = 'block';
+      cardList.innerHTML = '';
+      
       if (!eventData || !eventData[key] || eventData[key].length === 0) {
         cardList.innerHTML = '<p class="text-muted small">該当するイベントはありません。</p>';
-        return; // なかったら終了
+        return;
+      }
+
+      const typeSelect = document.getElementById('type-select');
+      const selectedType = typeSelect ? typeSelect.value : 'すべて';
+      
+      const filteredEvents = eventData[key].filter(event => {
+        if (selectedType === 'すべて') return true; 
+        return event.type === selectedType;         
+      });
+
+      if (filteredEvents.length === 0) {
+        cardList.innerHTML = '<p class="text-muted small">選択されたタイプのイベントはありません。</p>';
+        return;
       }
       
-      // カード自動生成・ループ処理
-      eventData[key].forEach(event => {
+      filteredEvents.forEach(event => {
         const startText = event.start.replace(/^([^\(]+)/, '<strong>$1</strong>');
         const endText = event.end.replace(/^([^\(]+)/, '<strong>$1</strong>');
         
@@ -204,18 +241,18 @@
         cardList.insertAdjacentHTML('beforeend', cardHtml);
       });
     }
-    // 詳細情報への切り替え
+
     async function loadEventDetail(url) {
-      const listContainer = document.getElementById('event-list-container');     // 一覧画面の枠を取得
-      const detailContainer = document.getElementById('event-detail-container'); // 詳細画面の枠と取得
+      const listContainer = document.getElementById('event-list-container');
+      const detailContainer = document.getElementById('event-detail-container');
 
       try {
-        const response = await fetch(url);                 // URLのファイルをダウンロード
-        if (!response.ok) throw new Error('データ取得失敗'); // ファイルない場合の表示
-        const htmlText = await response.text();            // ファイルの中身を取り出す
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('データ取得失敗');
+        const htmlText = await response.text();
         
-        listContainer.style.display = 'none';            // 一覧画面を非表示にする
-        detailContainer.innerHTML = htmlText;            // 詳細画面の枠に読み込んだHTMLを挿入
+        listContainer.style.display = 'none';
+        detailContainer.innerHTML = htmlText;
 
         const activeKey = document.querySelector('.year-btn.active').getAttribute('data-json-key');
         const targetEvent = eventData[activeKey].find(event => event.link === url);
@@ -233,7 +270,8 @@
             dateElement.innerHTML = `開催期間：${startText} ～ ${endText}`;
           }
         }
-        detailContainer.style.display = 'block';         // 詳細画面を表示する
+        detailContainer.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (error) {
         console.error(error);
         alert('イベント詳細の読み込みに失敗しました。ファイルが存在するか確認してください。');
@@ -244,16 +282,11 @@
       const listContainer = document.getElementById('event-list-container');
       const detailContainer = document.getElementById('event-detail-container');
       
-      detailContainer.style.display = 'none';    // 詳細画面を非表示にする
-      detailContainer.innerHTML = '';            // 詳細画面の中身を空にする
-      listContainer.style.display = 'block';     // カード一覧を再表示する
+      detailContainer.style.display = 'none';
+      detailContainer.innerHTML = '';
+      listContainer.style.display = 'block';
 
-      // 一覧に戻ったときに、滑らかにトップへスクロールさせる
       window.scrollTo({ top: 0, behavior: 'smooth' });
-        window.scrollTo(0, 0);
-        if ('history' in window && 'scrollRestoration' in window) {
-          window.history.scrollRestoration = 'manual';
-        }
     }
   </script>
 </body>

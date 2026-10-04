@@ -5,30 +5,76 @@
       "start": "2026/10/01 7:00",
       "end": "10/14 3:59",
       "link": "events/oekakipaneru.html",
-      "image": "images/202610011014-oekakipaneru-2.png" 
+      "image": "images/202610011014-oekakipaneru-1.png", 
+      "type": "イベント"
     }
   ],
-  "2026": [
+  "2026": [                    
     {
-      "title": "ふでのすけのおえかきパネル！",
+      "title": "ぱずぎり リリース",
+      "start": "2026/09/24 13:00",
+      "end": "",
+      "link": "events/20260924-release.html",
+      "image": "images/20260924-release.png",
+      "type": "運用"
+    },
+    {
+      "title": "【召喚】歌仙兼定（戦装束）PU",
+      "start": "2026/09/24 13:00",
+      "end": "09/28 15:59",
+      "link": "events/202609241031-releasecampaign-PU-kasenkanesada-ikusashozoku.html",
+      "image": "images/202609241031-releasecampaign-PU-kasenkanesada-ikusashozoku.png",
+      "type": "ピックアップ"
+    },
+    {
+      "title": "リリース記念キャンペーン実施",
+      "start": "2026/09/24 03:00",
+      "end": "10/31 14:59",
+      "link": "events/202609241031-releasecampaign.html",
+      "image": "images/202609241031-releasecampaign.png",
+      "type": "運用"
+    },
+    {
+      "title": "お得な商品販売のお知らせ",
+      "start": "2026/09/24 03:00",
+      "end": "10/31 14:59",
+      "link": "events/202609241031-shop.html",
+      "image": "images/202609241031-shop.png",
+      "type": "ショップ"
+    },
+    {
+      "title": "【召喚】乱藤四郎（戦装束）PU",
+      "start": "2026/09/28 16:00",
+      "end": "10/02 15:59",
+      "link": "events/202609281002-releasecampaign-PU-midaretosiro-ikusashozoku.html",
+      "image": "images/202609281002-releasecampaign-PU-midaretosiro-ikusashozoku.png",
+      "type": "ピックアップ"
+    },
+    {
+      "title": "【イベント】ふでのすけのおえかきパネル！",
       "start": "2026/10/01 7:00",
       "end": "10/14 3:59",
       "link": "events/oekakipaneru.html",
-      "image": "images/202610011014-oekakipaneru-2.png"
-    },                    
-    {
-      "title": "ハーフアニバーサリー記念フェス",
-      "start": "2026/06/15 15:00",
-      "end": "06/30 20:59",
-      "link": "events/456.html",
-      "image": "images/202610011014-oekakipaneru-3.png"
+      "image": "images/202610011014-oekakipaneru-1.png",
+      "type": "イベント"
     },
     {
-      "title": "新春！ぱずぎり大合戦2027",
-      "start": "2027/01/01 0:00",
-      "end": "01/10 23:59",
-      "link": "events/789.html",
-      "image": "images/202610011014-oekakipaneru-4.png"
+      "title": "【召喚】太郎太刀（戦装束）PU",
+      "start": "2026/10/02 16:00",
+      "end": "10/06 15:59",
+      "link": "events/202610021006-releasecampaign-PU-tarotachi-ikusashozoku.html",
+      "image": "images/202610021006-releasecampaign-PU-tarotachi-ikusashozoku.png",
+      "type": "ピックアップ"
+    }
+  ],
+  "その他": [
+    {
+      "title": "不具合",
+      "start": "2026/09/24 13:00",
+      "end": "",
+      "link": "events/huguai.html",
+      "image": "images/huguai.png",
+      "type": "不具合"
     }
   ]
 }
