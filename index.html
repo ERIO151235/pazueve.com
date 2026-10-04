@@ -250,6 +250,10 @@
 
       // 一覧に戻ったときに、滑らかにトップへスクロールさせる
       window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0, 0);
+        if ('history' in window && 'scrollRestoration' in window) {
+          window.history.scrollRestoration = 'manual';
+        }
     }
   </script>
 </body>
