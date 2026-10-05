@@ -219,15 +219,15 @@
       }
       
       filteredEvents.forEach(event => {
-        const startText = events.start.replace(/^([^\(]+)/, '<strong>$1</strong>');
-        const endText = events.end.replace(/^([^\(]+)/, '<strong>$1</strong>');
+        const startText = event.start.replace(/^([^\(]+)/, '<strong>$1</strong>');
+        const endText = event.end.replace(/^([^\(]+)/, '<strong>$1</strong>');
         
         const cardHtml = `
-          <div class="card border-0 hover-card text-decoration-none text-dark" onclick="loadEventDetail('${events.link}')">
+          <div class="card border-0 hover-card text-decoration-none text-dark" onclick="loadEventDetail('${event.link}')">
             <div class="card-body py-0 ps-0 pe-3 d-flex align-items-center">
-              <img src="${events.image}" alt="${events.title}" class="flex-shrink-0" style="width: 100px; height: 74px; object-fit: cover; border-top-left-radius: 12px; border-bottom-left-radius: 12px; margin-right: 16px;">
+              <img src="${event.image}" alt="${event.title}" class="flex-shrink-0" style="width: 100px; height: 74px; object-fit: cover; border-top-left-radius: 12px; border-bottom-left-radius: 12px; margin-right: 16px;">
               <div class="flex-grow-1 text-start pe-2" style="min-width: 0;">
-                <h2 class="h6 fw-bold mb-1 text-dark" style="line-height: 1.4; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${events.title}</h2>
+                <h2 class="h6 fw-bold mb-1 text-dark" style="line-height: 1.4; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${event.title}</h2>
                 <p class="text-muted mb-0" style="font-size: 0.8rem; letter-spacing: 0.01em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${startText} ～ ${endText}</p>
               </div>
               <i class="fas fa-chevron-right text-muted flex-shrink-0 ms-auto"></i>
