@@ -376,6 +376,7 @@
     }
 
     // 画像スライド表示
+    function initSlider() {
         const container = document.getElementById('sliderContainer');
         const wrapper = document.getElementById('sliderWrapper');
         const slides = document.querySelectorAll('.slide');
@@ -383,10 +384,12 @@
         const nextBtn = document.getElementById('nextBtn');
         const indicatorsContainer = document.getElementById('indicators');
 
+        if (!container || !wrapper || !prevBtn || !nextBtn || !indicatorsContainer || slides.length === 0) return;
+
         let currentIndex = 0;
         const totalSlides = slides.length;
 
-        // 丸いインジケーター（ドット）を画像の枚数分だけ自動生成
+        indicatorsContainer.innerHTML = '';
         slides.forEach((_, index) => {
             const dot = document.createElement('div');
             dot.classList.add('dot');
@@ -399,9 +402,8 @@
             indicatorsContainer.appendChild(dot);
         });
 
-        const dots = document.querySelectorAll('.dot');
+        const dots = indicatorsContainer.querySelectorAll('.dot');
 
-        // スライダーの位置とドットの表示を更新する関数
         function updateSlider() {
             wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
             dots.forEach((dot, index) => {
@@ -409,7 +411,6 @@
             });
         }
 
-        // 次へ・前へ移動する処理
         function slideNext() {
             currentIndex++;
             if (currentIndex >= totalSlides) {
@@ -425,30 +426,27 @@
             updateSlider();
         }
 
-        // ボタンのクリックイベント
         nextBtn.addEventListener('click', slideNext);
         prevBtn.addEventListener('click', slidePrev);
 
-        // スマホスワイプ操作
         let touchStartX = 0;
         let touchEndX = 0;
         const swipeThreshold = 50;
+        
         container.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
         }, { passive: true });
+        
         container.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].clientX;
-            handleSwipe();
-        }, { passive: true });
-        function handleSwipe() {
             const swipeDistance = touchEndX - touchStartX;
             if (swipeDistance < -swipeThreshold) {
                 slideNext();
-            }
-            else if (swipeDistance > swipeThreshold) {
+            } else if (swipeDistance > swipeThreshold) {
                 slidePrev();
             }
-        }
+        }, { passive: true });
+    }
   </script>
 </body>
 </html>
