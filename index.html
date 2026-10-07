@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="icon" href=".../images/flower3.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <style>
@@ -44,7 +45,7 @@
   .year-btn {
     padding: 6px 14px;
     margin: 4px;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     cursor: pointer;
     border: 1px solid #ced4da;
     background-color: #fff;
@@ -86,9 +87,20 @@
     max-width: 800px;
     margin: 0 auto;
   }
+  p.text-muted {
+    font-size: 0.8rem;
+  }
+  @media (max-width: 767px) {
+    h2.h6 {
+      font-size: 14px !important;
+    }
+    p.text-muted {
+      font-size: 11px !important;
+    }
+  }
   .hover-card {
-    background-color: #ffffff !important;
-    border-radius: 12px !important;
+    background-color: #ffffff;
+    border-radius: 12px;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.08);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
     cursor: pointer;
@@ -97,12 +109,91 @@
     transform: translateY(-3px);
     box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.15);
   }
+  .event-detail-container img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* 画像スライド表示 */
+  .slider-container {
+    position: relative;
+    width: auto;
+    max-width: auto;
+    height: 400px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    touch-action: pan-y; 
+  }
+  .slider-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease-in-out;
+  }
+  .slide {
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .arrow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #333333;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 20px;
+    z-index: 10;
+    transition: opacity 0.2s;
+  }
+  .arrow-btn:hover {
+    opacity: 0.7;
+  }
+  .prev-btn { left: 10px; }
+  .next-btn { right: 10px; }
+  .indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 6px 15px;
+    border-radius: 20px;
+    z-index: 10;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #888888;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .dot.active {
+    background-color: #0b478a;
+  }
   
   /* フッター */
   .custom-footer {
     width: 100%;
     justify-content: center;
     text-align: center;
+  }
+  @media (max-width: 767px) {
+  .custom-footer {
+    font-size: 10px;
+  }
+}
+  a.custom-footer {
+    color: #aaaaaa;
   }
 </style>
 
@@ -137,7 +228,7 @@
         <select id="type-select" class="form-select rounded-pill form-select-sm text-secondary" style="cursor: pointer; background-color: #fff;">
           <option value="すべて">すべてのタイプを表示</option>
           <option value="イベント">イベント</option>
-          <option value="ピックアップ">【召喚】ピックアップ（戦装束）</option>
+          <option value="ピックアップ">召喚（戦装束）</option>
           <option value="運営">運営</option>
           <option value="ショップ">ショップ</option>
           <option value="不具合">不具合</option>
@@ -156,11 +247,9 @@
 
   <footer class="py-4 mt-auto custom-footer">
     <p class="footer-text mb-0" style="color:#aaaaaa">
-      <small>
-        Background Image by <a href="https://ja.pngtree.com/freepng/hand-drawn-cartoon-cherry-petals-floating-free-buckle-element_4431467.html">ja.pngtree.com</a>
+        Background Image by <a href="https://ja.pngtree.com/freepng/hand-drawn-cartoon-cherry-petals-floating-free-buckle-element_4431467.html" class="custom-footer">ja.pngtree.com</a>
         <br>
-        衿緒 <a href="https://twitter.com/ERIO151235/">@ERIO151235</a>
-      </small>
+        衿緒 <a href="https://twitter.com/ERIO151235/" class="custom-footer">@ERIO151235</a>
     </p>
   </footer>
 
@@ -198,26 +287,21 @@
     function renderEventList(key) {
       const cardList = document.getElementById('card-list');
       const listContainer = document.getElementById('event-list-container');
-      const detailContainer = document.getElementById('event-detail-container');
-      
+      const detailContainer = document.getElementById('event-detail-container');      
       detailContainer.style.display = 'none';
       detailContainer.innerHTML = '';
       listContainer.style.display = 'block';
-      cardList.innerHTML = '';
-      
+      cardList.innerHTML = '';      
       if (!eventData || !eventData[key] || eventData[key].length === 0) {
         cardList.innerHTML = '<p class="text-muted small">該当するイベントはありません。</p>';
         return;
       }
-
       const typeSelect = document.getElementById('type-select');
-      const selectedType = typeSelect ? typeSelect.value : 'すべて';
-      
+      const selectedType = typeSelect ? typeSelect.value : 'すべて';     
       const filteredEvents = eventData[key].filter(event => {
         if (selectedType === 'すべて') return true; 
         return event.type === selectedType;         
       });
-
       if (filteredEvents.length === 0) {
         cardList.innerHTML = '<p class="text-muted small">選択されたタイプのイベントはありません。</p>';
         return;
@@ -226,14 +310,13 @@
       filteredEvents.forEach(event => {
         const startText = event.start.replace(/^([^\(]+)/, '<strong>$1</strong>');
         const endText = event.end.replace(/^([^\(]+)/, '<strong>$1</strong>');
-        
         const cardHtml = `
           <div class="card border-0 hover-card text-decoration-none text-dark" onclick="loadEventDetail('${event.link}')">
             <div class="card-body py-0 ps-0 pe-3 d-flex align-items-center">
               <img src="${event.image}" alt="${event.title}" class="flex-shrink-0" style="width: 100px; height: 74px; object-fit: cover; border-top-left-radius: 12px; border-bottom-left-radius: 12px; margin-right: 16px;">
               <div class="flex-grow-1 text-start pe-2" style="min-width: 0;">
                 <h2 class="h6 fw-bold mb-1 text-dark" style="line-height: 1.4; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${event.title}</h2>
-                <p class="text-muted mb-0" style="font-size: 0.8rem; letter-spacing: 0.01em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${startText} ～ ${endText}</p>
+                <p class="text-muted mb-0" style="letter-spacing: 0.01em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${startText} ～ ${endText}</p>
               </div>
               <i class="fas fa-chevron-right text-muted flex-shrink-0 ms-auto"></i>
             </div>
@@ -251,17 +334,13 @@
         const response = await fetch(url);
         if (!response.ok) throw new Error('データ取得失敗');
         const htmlText = await response.text();
-        
         listContainer.style.display = 'none';
         detailContainer.innerHTML = htmlText;
-
         const activeKey = document.querySelector('.year-btn.active').getAttribute('data-json-key');
         const targetEvent = eventData[activeKey].find(event => event.link === url);
-        
         if (targetEvent) {
           const titleElement = document.getElementById('js-event-title');
           const dateElement = document.getElementById('js-event-date');
-          
           if (titleElement) {
             titleElement.innerText = targetEvent.title;
           }
@@ -282,13 +361,91 @@
       e.preventDefault();
       const listContainer = document.getElementById('event-list-container');
       const detailContainer = document.getElementById('event-detail-container');
-      
       detailContainer.style.display = 'none';
       detailContainer.innerHTML = '';
       listContainer.style.display = 'block';
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // 画像スライド表示
+        const container = document.getElementById('sliderContainer');
+        const wrapper = document.getElementById('sliderWrapper');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicatorsContainer = document.getElementById('indicators');
+
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        // 1. 丸いインジケーター（ドット）を画像の枚数分だけ自動生成
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateSlider();
+            });
+            indicatorsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        // 2. スライダーの位置とドットの表示を更新する関数
+        function updateSlider() {
+            wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        // 3. 次へ・前へ移動する処理
+        function slideNext() {
+            currentIndex++;
+            if (currentIndex >= totalSlides) {
+                currentIndex = 0;
+            }
+            updateSlider();
+        }
+        function slidePrev() {
+            currentIndex--;
+            if (currentIndex < 0) {
+                currentIndex = totalSlides - 1;
+            }
+            updateSlider();
+        }
+
+        // ボタンのクリックイベント
+        nextBtn.addEventListener('click', slideNext);
+        prevBtn.addEventListener('click', slidePrev);
+
+        // スマホスワイプ操作
+        let touchStartX = 0;        // 指が触れた瞬間のX座標
+        let touchEndX = 0;          // 指が離れた瞬間のX座標
+        const swipeThreshold = 50;  // スワイプと判定する最低限の移動距離（ピクセル）
+        // 指が画面に触れたとき
+        container.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        // 指が画面から離れたとき
+        container.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].clientX;
+            handleSwipe();
+        }, { passive: true });
+        // スワイプの方向を判定して画像を切り替える関数
+        function handleSwipe() {
+            const swipeDistance = touchEndX - touchStartX;
+            // 右から左へのスワイプ（＝次の画像へ）
+            if (swipeDistance < -swipeThreshold) {
+                slideNext();
+            }
+            // 左から右へのスワイプ（＝前の画像へ）
+            else if (swipeDistance > swipeThreshold) {
+                slidePrev();
+            }
+        }
   </script>
 </body>
 </html>
