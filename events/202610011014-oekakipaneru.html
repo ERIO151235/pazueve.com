@@ -61,6 +61,62 @@
     background-color: #f9f9f9;
     width: 50%;
   }
+  
+  /* --- アコーディオン全体の枠 --- */
+  .accordion-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  .accordion-header {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    color: #0b478a;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    outline: none;
+  }
+  .accordion-icon {
+    display: inline-block;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+  }
+  .accordion-header.is-open .accordion-icon {
+    transform: rotate(-180deg);
+  }
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+  }
+  .accordion-inner {
+    padding: 0 0px 0px 0px;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .data-table th, .data-table td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 12px 10px;
+    text-align: left;
+  }
+  
+  .data-table th {
+    background-color: #f4f7fa;
+    color: #555;
+  }
 </style>
 
 <div style="margin-bottom: 20px;">
@@ -104,83 +160,83 @@
     <!-- 🌸ミッション内容 -->
     <h2 class="subtitle">ミッション内容</h2>
     <div class="text-block">
-      <table class="mission-table">
-        <tbody>
-          <tr>
-            <th style="text-align: center;">【一戦】</th>
-            <th style="text-align: center;">【累計】</th>
-          </tr>
-          <tr>
-            <td>赤色のト餓鬼を30体倒そう</td>
-            <td>赤色のト餓鬼を303体倒そう</td>
-          </tr>
-          <tr>
-            <td>黄色のト餓鬼を30体倒そう</td>
-            <td>黄色のト餓鬼を348体倒そう</td>
-          </tr>
-          <tr>
-            <td>青色のト餓鬼を30体倒そう</td>
-            <td>青色のト餓鬼を326体倒そう</td>
-          </tr>
-          <tr>
-            <td>緑色のト餓鬼を30体倒そう</td>
-            <td>緑色のト餓鬼を333体倒そう</td>
-          </tr>
-          <tr>
-            <td>8回攻撃しよう</td>
-            <td>88回攻撃しよう</td>
-          </tr>
-          <tr>
-            <td>奥義を1回使おう</td>
-            <td>奥義を9回使おう</td>
-          </tr>
-          <tr>
-            <td>刀剣ボムを2回作成しよう</td>
-            <td>刀剣ボムを累計26回作成しよう</td>
-          </tr>
-          <tr>
-            <td>Lv1以上の刀剣ボムを1個作成しよう</td>
-            <td>Lv1以上の刀剣ボムを31回作成しよう</td>
-          </tr>
-          <tr>
-            <td>刀剣ボムを1回合体しよう</td>
-            <td>刀剣ボムを累計18体合体しよう</td>
-          </tr>
-          <tr>
-            <td>10128ダメージを出そう</td>
-            <td>75068ダメージを出そう</td>
-          </tr>
-          <tr>
-            <td>1手で1538ダメージを出そう</td>
-            <td>ボスを3体倒そう</td>
-          </tr>
-          <tr>
-            <td>1手でト餓鬼を13体倒そう</td>
-            <td>ト餓鬼を252体倒そう</td>
-          </tr>
-          <tr>
-            <td style="text-align: center;">ー</td>
-            <td>奥義で3回とどめをさそう</td>
-          </tr>
-          <tr>
-            <td style="text-align: center;">ー</td>
-            <td>A以上の評価を2回達成しよう</td>
-          </tr>
-          <tr>
-            <td style="text-align: center;">ー</td>
-            <td>乱舞ぎりタイム中にト餓鬼を400体倒そう</td>
-          </tr>
-          <tr>
-            <td style="text-align: center;">ー</td>
-            <td>乱舞ぎりタイムに4回入ろう</td>
-          </tr>
-          <tr>
-            <td style="text-align: center;">ー</td>
-            <td>3回勝利しよう</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          <table class="mission-table">
+            <tbody>
+              <tr>
+                <th style="text-align: center;">【一戦】</th>
+                <th style="text-align: center;">【累計】</th>
+              </tr>
+              <tr>
+                <td>赤色のト餓鬼を30体倒そう</td>
+                <td>赤色のト餓鬼を303体倒そう</td>
+              </tr>
+              <tr>
+                <td>黄色のト餓鬼を30体倒そう</td>
+                <td>黄色のト餓鬼を348体倒そう</td>
+              </tr>
+              <tr>
+                <td>青色のト餓鬼を30体倒そう</td>
+                <td>青色のト餓鬼を326体倒そう</td>
+              </tr>
+              <tr>
+                <td>緑色のト餓鬼を30体倒そう</td>
+                <td>緑色のト餓鬼を333体倒そう</td>
+              </tr>
+              <tr>
+                <td>8回攻撃しよう</td>
+                <td>88回攻撃しよう</td>
+              </tr>
+              <tr>
+                <td>奥義を1回使おう</td>
+                <td>奥義を9回使おう</td>
+              </tr>
+              <tr>
+                <td>刀剣ボムを2回作成しよう</td>
+                <td>刀剣ボムを累計26回作成しよう</td>
+              </tr>
+              <tr>
+                <td>Lv1以上の刀剣ボムを1個作成しよう</td>
+                <td>Lv1以上の刀剣ボムを31回作成しよう</td>
+              </tr>
+              <tr>
+                <td>刀剣ボムを1回合体しよう</td>
+                <td>刀剣ボムを累計18体合体しよう</td>
+              </tr>
+              <tr>
+                <td>10128ダメージを出そう</td>
+                <td>75068ダメージを出そう</td>
+              </tr>
+              <tr>
+                <td>1手で1538ダメージを出そう</td>
+                <td>ボスを3体倒そう</td>
+              </tr>
+              <tr>
+                <td>1手でト餓鬼を13体倒そう</td>
+                <td>ト餓鬼を252体倒そう</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">ー</td>
+                <td>奥義で3回とどめをさそう</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">ー</td>
+                <td>A以上の評価を2回達成しよう</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">ー</td>
+                <td>乱舞ぎりタイム中にト餓鬼を400体倒そう</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">ー</td>
+                <td>乱舞ぎりタイムに4回入ろう</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">ー</td>
+                <td>3回勝利しよう</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
     
     <!-- 🌸ボス一覧 -->
     <h2 class="subtitle">ボス一覧</h2>
@@ -211,7 +267,7 @@
     <h2 class="subtitle">そのほか</h2>
     <div class="text-block">
       ・イベントいちにちお得券
-      <img src="images/202610011014-oekakipaneru-otokuken" alt="イベントいちにちお得券" style="display: block; width: 100%; max-width: 600px; min-width: 0; flex-shrink: 1; height: auto; margin: 0 auto 20px auto;>
+      <img src="images/202610011014-oekakipaneru-otokuken" alt="イベントいちにちお得券">
     </div>
   </div>
   
