@@ -359,6 +359,7 @@
         }
         detailContainer.style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        initSlider();
         } catch (error) {
         console.error(error);
         alert('イベント詳細の読み込みに失敗しました。ファイルが存在するか確認してください。');
@@ -385,7 +386,7 @@
         let currentIndex = 0;
         const totalSlides = slides.length;
 
-        // 1. 丸いインジケーター（ドット）を画像の枚数分だけ自動生成
+        // 丸いインジケーター（ドット）を画像の枚数分だけ自動生成
         slides.forEach((_, index) => {
             const dot = document.createElement('div');
             dot.classList.add('dot');
@@ -400,7 +401,7 @@
 
         const dots = document.querySelectorAll('.dot');
 
-        // 2. スライダーの位置とドットの表示を更新する関数
+        // スライダーの位置とドットの表示を更新する関数
         function updateSlider() {
             wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
             dots.forEach((dot, index) => {
@@ -408,7 +409,7 @@
             });
         }
 
-        // 3. 次へ・前へ移動する処理
+        // 次へ・前へ移動する処理
         function slideNext() {
             currentIndex++;
             if (currentIndex >= totalSlides) {
@@ -429,26 +430,21 @@
         prevBtn.addEventListener('click', slidePrev);
 
         // スマホスワイプ操作
-        let touchStartX = 0;        // 指が触れた瞬間のX座標
-        let touchEndX = 0;          // 指が離れた瞬間のX座標
-        const swipeThreshold = 50;  // スワイプと判定する最低限の移動距離（ピクセル）
-        // 指が画面に触れたとき
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const swipeThreshold = 50;
         container.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
         }, { passive: true });
-        // 指が画面から離れたとき
         container.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].clientX;
             handleSwipe();
         }, { passive: true });
-        // スワイプの方向を判定して画像を切り替える関数
         function handleSwipe() {
             const swipeDistance = touchEndX - touchStartX;
-            // 右から左へのスワイプ（＝次の画像へ）
             if (swipeDistance < -swipeThreshold) {
                 slideNext();
             }
-            // 左から右へのスワイプ（＝前の画像へ）
             else if (swipeDistance > swipeThreshold) {
                 slidePrev();
             }
