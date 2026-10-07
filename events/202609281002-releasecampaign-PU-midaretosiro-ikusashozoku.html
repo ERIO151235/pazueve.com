@@ -15,7 +15,7 @@
   }
   .event-detail-title {
     text-align: center;
-    font-size: 1.7rem;
+    font-size: 1.35em;
     margin-bottom: 10px;
   }
   .event-detail-date {
@@ -38,28 +38,10 @@
     padding-bottom: 2px;
     width: 100%;
   }
-  .flower-icon {
-    color: #ff6b81;
-  }
   .text-block {
     margin-bottom: 16px;
     padding-left: 15px;
     padding-right: 15px;
-  }
-  .mission-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 5px;
-    margin-bottom: 10px;
-  }
-  .mission-table th, .mission-table td {
-    border: 1px solid #ccc;
-    padding: 5px;
-    text-align: left;
-  }
-  .mission-table th {
-    background-color: #f9f9f9;
-    width: 50%;
   }
 </style>
 
@@ -70,83 +52,24 @@
 </div>
 
 <div class="event-detail-body">
-  <!-- 画像エリア
-  実際の画像に切り替える際は、
-  <div class="event-image-container">...</div> を削除、
-  コメントアウトしてある <img> タグのコメントアウトを解除、
-  src属性に正しい画像パスを指定してください。
-  例: src="images/event_banner.jpg" -->
-  <div id="js-image-palceholder" class="event-image-container">
-    <!-- <img src="images/【画像ファイル名】.jpg" alt="イベント画像" style="display: block;
-  　　　　　width: 90%; max-width: 700px; height: auto; margin: 0 auto 20px auto;"> -->
-  </div>
+  
+  <!-- 1. 画像URL・説明を書き換える -->
+  <img src="images/202609281002-releasecampaign-PU-midaretosiro-ikusashozoku-2.jpg" alt="【召喚】レア乱藤四郎（戦装束）" 
+    style="display: block; width: 90%; max-width: 700px; min-width: 0; flex-shrink: 1; height: auto; margin: 0 auto 20px auto;">
   <h1 id="js-event-title" class="event-detail-title">タイトル</h1>
   <div id="js-event-date" class="event-detail-date">開催期間</div>
-
   
-  <!-- 以下、手入力部分 -->
-  <div class="event-content">
-    
-    <!-- 🌸イベント内容 -->
+  <!-- 2. 詳細入力 -->
+  <!-- <div class="event-content">
     <h2 class="subtitle">イベント内容</h2>
     <div class="text-block">
-      ふでのすけの描いた絵画にト餓鬼が貼り付いて妨害！隠された絵を取り戻そう
     </div>
-    
-    <!-- 🌸イベントの進め方 -->
-    <h2 class="subtitle">イベントの進め方</h2>
-    <div class="text-block">
-      ふでのすけの絵の上には、ト餓鬼が貼り付いてしまっています。<br>
-      それぞれのト餓鬼のミッションをクリアして、すべてのパネルを開きましょう！
-      特攻効果を持つ刀剣男士を編成すれば、イベントを有利に進めることができます。
-    </div>
-    
-    <!-- 🌸ミッション内容 -->
-    <h2 class="subtitle">ミッション内容</h2>
-    <div class="text-block">
-      <table class="mission-table">
-        <tbody>
-          <tr>
-            <th>【一戦】</th>
-            <td>1手でト餓鬼を13体倒そう</td>
-          </tr>
-          <tr>
-            <th>【累計】</th>
-            <td>ボスを3体倒そう</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-    <!-- 🌸ボス一覧 -->
-    <h2 class="subtitle">ボス一覧</h2>
-    <div class="text-block">
-      ここにボス一覧の情報が入ります。
-    </div>
-    
-    <!-- 🌸報酬 -->
-    <h2 class="subtitle">報酬</h2>
-    <div class="text-block">
-      ここに報酬の情報が入ります。
-    </div>
-    
-    <!-- 🌸イベント交換所 -->
-    <h2 class="subtitle">イベント交換所</h2>
-    <div class="text-block">
-      ここにイベント交換所の情報が入ります。
-    </div>
-    
-    <!-- 🌸そのほか -->
-    <h2 class="subtitle">そのほか</h2>
-    <div class="text-block">
-      イベント記念ログインボーナス開催。累計7日間ログインで様々なアイテムを受け取ることができる
-    </div>
-  </div>
+  </div> -->
   
-</div>
+  <div style="margin-top: 20px;">
+    <a href="#" class="text-decoration-none small text-secondary" onclick="backToEventList(event)">
+      <i class="bi bi-arrow-left-circle" style="font-size: 0.8rem; vertical-align: middle;"></i> 戻る
+    </a>
+  </div>
 
-<div style="margin-top: 20px;">
-  <a href="#" class="text-decoration-none small text-secondary" onclick="backToEventList(event)">
-    <i class="bi bi-arrow-left-circle" style="font-size: 0.8rem; vertical-align: middle;"></i> 戻る
-  </a>
 </div>
