@@ -8,8 +8,8 @@ html, body {
   font-family: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', system-ui, -apple-system, sans-serif;
   letter-spacing: 0.05em;
   color: #333;
-  background-color: #f5f5f5;
   background-image: url("images/background.png");
+  background-color: #f5f5f5;
   background-repeat: no-repeat;
   background-position: right top;
   background-attachment: fixed;
