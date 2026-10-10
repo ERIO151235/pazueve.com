@@ -1,15 +1,11 @@
-// 各ボタンに紐づくJSONファイルの定義（now.jsonは不要なため削除）
 const jsonConfig = {
   '召喚': 'PU.json',
   'イベント': 'events.json'
 };
 
-// 読み込まれたすべての生イベントデータ（合体・フィルタ用）
 let allFetchedEvents = [];
-// 現在のタブやソートに応じて画面に表示すべきイベントデータ
 let currentDisplayEvents = [];
 
-// 指定されたJSONファイルからデータを取得する関数
 async function fetchEventData(fileName) {
   try {
     const response = await fetch(fileName);
@@ -51,7 +47,7 @@ function getEventPeriod(dateStr) {
   
   return [start, end];
 }
-// ▲▲ここまで置き換え▲▲
+
 // データを指定された順序（新しい順/古い順）に並び替える関数
 function sortEvents(eventList, order) {
   return eventList.sort((a, b) => {
@@ -89,7 +85,7 @@ async function loadDetailHtml(url) {
     // 2. 詳細用ビューアーにHTMLを流し込み、一番上に戻るボタンを配置
     viewer.innerHTML = `
       <div style="padding: 15px 0;">
-        <button id="back-to-list-btn" class="button" style="margin-left:0;"><i class="bi bi-arrow-left"></i> 一覧に戻る</button>
+        <button id="back-to-list-btn" class="button" style="margin-left:0;"><i class="bi bi-arrow-left"></i> 戻る</button>
       </div>
       <div class="detail-body-content">
         ${htmlText}
@@ -107,7 +103,7 @@ async function loadDetailHtml(url) {
 
   } catch (error) {
     console.error(error);
-    alert(`詳細画面を開けませんでした。\n\n【原因の可能性】\n${error.message}`);
+    alert(`詳細画面を開けませんでした。`);
   }
 }
 
