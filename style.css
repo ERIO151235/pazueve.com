@@ -1,0 +1,245 @@
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  font-family: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.05em;
+  color: #333;
+  background-color: #f5f5f5;
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-attachment: fixed;
+  background-size: auto;
+}
+
+/* ヘッダー設定 */
+.header {
+  font-family: "Zen Antique Soft", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #333333;
+}
+.header-action:active {
+  transform: translateY(2px);
+}
+.header-border {
+  border-bottom: 1px solid #eeeeee;
+  width: 100%;
+}
+
+/* コンテナ設定 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 767px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+/* ボタン設定 */
+.button {
+  padding: 6px 14px;
+  margin: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  border-radius: 25px;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease, color 0.15s ease;
+}
+.button:not(.active):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  
+  border-color: #f6bfbc;
+  color: #333;
+}
+.button:active {
+  transform: translateY(1px);
+}
+.button.active, .button.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  background-color: #f09199;
+  border-color: #f09199;
+  color: #fff;
+  cursor: default;
+}
+.button-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+/* カード設定 */
+.CardConteiner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.Card {
+  display: grid;
+  grid-template-columns: 100px 1fr 40px;
+  align-items: center;
+  height: 74px;
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  top: 0;
+  transition: top 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+.Card:hover {
+  top: -4px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.Card:active {
+  top: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.Card img {
+  width: 100px;
+  height: 74px;
+  object-fit: cover;
+}
+.Card-text {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  gap: 3px;
+}
+.Card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.Card-date {
+  margin: 0;
+  font-size: 13px;
+  color: #666666;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.Card-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333333;
+  font-size: 18px;
+  padding-right: 8px;
+}
+
+/* 画像スライド表示設定 */
+.slider-container {
+  position: relative;
+  width: 70%;
+  max-width: 400px;
+  
+  margin: 0 hidden;
+  overflow: hidden;
+  touch-action: pan-y; 
+}
+@media (max-width: 767px) {
+  .slider-container {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    maegin-right: calc(-50vw + 50%);
+    height: 250px;
+  }
+}
+.slider-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s;
+}
+.slide {
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: 0;
+}
+.arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #333333;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 20px;
+  z-index: 10;
+  transition: opacity 0.2s;
+}
+.arrow-btn:hover {
+  opacity: 0.7;
+}
+.prev-btn {
+  left: 10px;
+}
+.next-btn {
+  right: 10px;
+}
+.indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 6px 15px;
+  border-radius: 20px;
+  z-index: 10;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #888888;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.dot.active {
+  background-color: #0b478a;
+}
+
+/* フッター設定 */
+.footer {
+  font-size: 0.8rem;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  color: #aaaaaa;
+}
+@media (max-width: 767px) {
+  .footer {
+    font-size: 10px;
+  }
+}
