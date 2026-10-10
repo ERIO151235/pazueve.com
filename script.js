@@ -41,7 +41,7 @@ function getEventPeriod(dateStr) {
   if (!dateStr) return [new Date(0), new Date(0)];
   
   // あらゆる区切り文字に対応
-  const parts = dateStr.split(/[〜\-~]|--/);
+  const parts = dateStr.split(/[～〜\-~]|--/);
   const startDate = parseDateTime(parts[0]);
   const endDate = parts[1] ? parseDateTime(parts[1]) : null;
 
