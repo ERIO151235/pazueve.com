@@ -1,15 +1,11 @@
-// 各ボタンに紐づくJSONファイルの定義（now.jsonは不要なため削除）
 const jsonConfig = {
   '召喚': 'PU.json',
   'イベント': 'events.json'
 };
 
-// 読み込まれたすべての生イベントデータ（合体・フィルタ用）
 let allFetchedEvents = [];
-// 現在のタブやソートに応じて画面に表示すべきイベントデータ
 let currentDisplayEvents = [];
 
-// 指定されたJSONファイルからデータを取得する関数
 async function fetchEventData(fileName) {
   try {
     const response = await fetch(fileName);
@@ -23,32 +19,33 @@ async function fetchEventData(fileName) {
   }
 }
 
-// 日付文字列（"2026/10/01 12:00" など）をDateオブジェクトに変換する関数
-function parseDateTime(dateTimeStr) {
-  if (!dateTimeStr) return null;
-  const match = dateTimeStr.trim().match(/(\d{4})[\/\.-](\d{1,2})[\/\.-](\d{1,2})(?:\s+(\d{1,2}):(\d{1,2}))?/);
-  if (match) {
-    const [_, year, month, day, hour, minute] = match;
-    const h = hour ? parseInt(hour) : 0;
-    const m = minute ? parseInt(minute) : 0;
-    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day), h, m);
-  }
-  return null;
-}
-
-// 期間文字列（"開始 〜 終了"）を解析して [開始Date, 終了Date] を返す関数
 function getEventPeriod(dateStr) {
   if (!dateStr) return [new Date(0), new Date(0)];
   
-  // あらゆる区切り文字に対応
-  const parts = dateStr.split(/[〜\-~]|--/);
-  const startDate = parseDateTime(parts[0]);
-  const endDate = parts[1] ? parseDateTime(parts[1]) : null;
+  const regex = /(\d{4})[\/\.-](\d{1,2})[\/\.-](\d{1,2})(?:\s+(\d{1,2}):(\d{1,2}))?/g;
+  const matches = [...dateStr.matchAll(regex)];
 
-  const start = startDate ? startDate : new Date(0);
-  const end = endDate ? endDate : (startDate ? new Date(startDate.getTime()).setHours(23, 59, 59, 999) : new Date(0));
+  if (matches.length === 0) return [new Date(0), new Date(0)];
+
+  const m1 = matches[0];
+  const start = new Date(
+    parseInt(m1[1]), parseInt(m1[2]) - 1, parseInt(m1[3]),
+    m1[4] ? parseInt(m1[4]) : 0, m1[5] ? parseInt(m1[5]) : 0
+  );
+
+  let end;
+  if (matches.length > 1) {
+    const m2 = matches[1];
+    end = new Date(
+      parseInt(m2[1]), parseInt(m2[2]) - 1, parseInt(m2[3]),
+      m2[4] ? parseInt(m2[4]) : 23, m2[5] ? parseInt(m2[5]) : 59
+    );
+  } else {
+    end = new Date(start.getTime());
+    end.setHours(23, 59, 59, 999);
+  }
   
-  return [start, new Date(end)];
+  return [start, end];
 }
 
 // データを指定された順序（新しい順/古い順）に並び替える関数
@@ -88,7 +85,7 @@ async function loadDetailHtml(url) {
     // 2. 詳細用ビューアーにHTMLを流し込み、一番上に戻るボタンを配置
     viewer.innerHTML = `
       <div style="padding: 15px 0;">
-        <button id="back-to-list-btn" class="button" style="margin-left:0;"><i class="bi bi-arrow-left"></i> 一覧に戻る</button>
+        <button id="back-to-list-btn" class="button" style="margin-left:0;"><i class="bi bi-arrow-left"></i> 戻る</button>
       </div>
       <div class="detail-body-content">
         ${htmlText}
@@ -106,7 +103,7 @@ async function loadDetailHtml(url) {
 
   } catch (error) {
     console.error(error);
-    alert(`詳細画面を開けませんでした。\n\n【原因の可能性】\n${error.message}`);
+    alert(`詳細画面を開けませんでした。`);
   }
 }
 
@@ -130,7 +127,7 @@ function createCards(eventList) {
 
     const title = event.title || event.name || '無題のイベント';
     const date = event.date || event.period || event.duration || '期間未定';
-    const imageUrl = event.imageUrl || event.img || event.url || 'https://placeholder.com';
+    const imageUrl = event.imageUrl || event.image || event.img || event.url || 'https://placeholder.com';
     
     const detailId = event.id || event.ID || event.link || encodeURIComponent(title);
     const detailUrl = `events/${detailId}.html`;
