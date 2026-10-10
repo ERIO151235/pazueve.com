@@ -9,21 +9,21 @@
   {
     "id": "releaseCampeign",
     "title": "リリース記念キャンペーン実施",
-    "date": "2026/09/24 03:00 ～ 10/31 14:59",
+    "date": "2026/09/24 03:00 ～ 2026/10/31 14:59",
     "link": "events/202609241031-releasecampaign.html",
     "image": "images/202609241031-releasecampaign.jpg"
   },
   {
     "id": "shop1",
     "title": "お得な商品販売のお知らせ",
-    "date": "2026/09/24 03:00 ～ 10/31 14:59",
+    "date": "2026/09/24 03:00 ～ 2026/10/31 14:59",
     "link": "events/202609241031-shop.html",
     "image": "images/202609241031-shop.jpg"
   },
   {
     "id": "oekakipaneru",
     "title": "ふでのすけのおえかきパネル！",
-    "date": "2026/10/01 7:00 ～ 10/14 3:59",
+    "date": "2026/10/01 7:00 ～ 2026/10/14 3:59",
     "link": "events/202610011014-oekakipaneru.html",
     "image": "images/202610011014-oekakipaneru.PNG"
   }
