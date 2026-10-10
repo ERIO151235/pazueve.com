@@ -23,34 +23,35 @@ async function fetchEventData(fileName) {
   }
 }
 
-// 日付文字列（"2026/10/01 12:00" など）をDateオブジェクトに変換する関数
-function parseDateTime(dateTimeStr) {
-  if (!dateTimeStr) return null;
-  const match = dateTimeStr.trim().match(/(\d{4})[\/\.-](\d{1,2})[\/\.-](\d{1,2})(?:\s+(\d{1,2}):(\d{1,2}))?/);
-  if (match) {
-    const [_, year, month, day, hour, minute] = match;
-    const h = hour ? parseInt(hour) : 0;
-    const m = minute ? parseInt(minute) : 0;
-    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day), h, m);
-  }
-  return null;
-}
-
-// 期間文字列（"開始 〜 終了"）を解析して [開始Date, 終了Date] を返す関数
 function getEventPeriod(dateStr) {
   if (!dateStr) return [new Date(0), new Date(0)];
   
-  // あらゆる区切り文字に対応
-  const parts = dateStr.split(/[～〜\-~]|--/);
-  const startDate = parseDateTime(parts[0]);
-  const endDate = parts[1] ? parseDateTime(parts[1]) : null;
+  const regex = /(\d{4})[\/\.-](\d{1,2})[\/\.-](\d{1,2})(?:\s+(\d{1,2}):(\d{1,2}))?/g;
+  const matches = [...dateStr.matchAll(regex)];
 
-  const start = startDate ? startDate : new Date(0);
-  const end = endDate ? endDate : (startDate ? new Date(startDate.getTime()).setHours(23, 59, 59, 999) : new Date(0));
+  if (matches.length === 0) return [new Date(0), new Date(0)];
+
+  const m1 = matches[0];
+  const start = new Date(
+    parseInt(m1[1]), parseInt(m1[2]) - 1, parseInt(m1[3]),
+    m1[4] ? parseInt(m1[4]) : 0, m1[5] ? parseInt(m1[5]) : 0
+  );
+
+  let end;
+  if (matches.length > 1) {
+    const m2 = matches[1];
+    end = new Date(
+      parseInt(m2[1]), parseInt(m2[2]) - 1, parseInt(m2[3]),
+      m2[4] ? parseInt(m2[4]) : 23, m2[5] ? parseInt(m2[5]) : 59
+    );
+  } else {
+    end = new Date(start.getTime());
+    end.setHours(23, 59, 59, 999);
+  }
   
-  return [start, new Date(end)];
+  return [start, end];
 }
-
+// ▲▲ここまで置き換え▲▲
 // データを指定された順序（新しい順/古い順）に並び替える関数
 function sortEvents(eventList, order) {
   return eventList.sort((a, b) => {
