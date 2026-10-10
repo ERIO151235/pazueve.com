@@ -130,7 +130,7 @@ function createCards(eventList) {
 
     const title = event.title || event.name || '無題のイベント';
     const date = event.date || event.period || event.duration || '期間未定';
-    const imageUrl = event.imageUrl || event.img || event.url || 'https://placeholder.com';
+    const imageUrl = event.imageUrl || event.image || event.img || event.url || 'https://placeholder.com';
     
     const detailId = event.id || event.ID || event.link || encodeURIComponent(title);
     const detailUrl = `events/${detailId}.html`;
